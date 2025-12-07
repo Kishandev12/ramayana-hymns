@@ -4,12 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ramayana Hymns Repository</title>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Devanagari:wght@400;700&display=swap" rel="stylesheet"><!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ramayana Hymns Repository - Admin Panel</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Devanagari:wght@400;700&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -41,7 +35,6 @@
         .header p { font-size: 1.1rem; opacity: 0.95; font-style: italic; }
         .container { max-width: 1200px; margin: 0 auto; padding: 2rem 1rem; }
         
-        /* Admin Button */
         .admin-toggle {
             position: fixed;
             bottom: 2rem;
@@ -64,7 +57,6 @@
         }
         .admin-toggle:hover { transform: scale(1.1) rotate(90deg); }
         
-        /* Admin Panel */
         .admin-panel {
             display: none;
             position: fixed;
@@ -92,7 +84,6 @@
             color: var(--text-light);
         }
         
-        /* Form Styles */
         .form-group { margin-bottom: 1.5rem; }
         .form-label { display: block; font-weight: bold; margin-bottom: 0.5rem; color: var(--primary); }
         .form-input, .form-select, .form-textarea {
@@ -118,7 +109,6 @@
         }
         .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(139, 69, 19, 0.4); }
         
-        /* Hymn Display */
         .search-box {
             background: var(--card-bg);
             padding: 1.5rem;
@@ -200,7 +190,6 @@
         }
         .hymn-card:hover .delete-btn { display: block; }
         
-        /* Modal */
         .modal {
             display: none;
             position: fixed;
@@ -299,7 +288,6 @@
 
     <button class="admin-toggle" onclick="toggleAdmin()">⚙️</button>
 
-    <!-- Admin Panel -->
     <div class="admin-panel" id="adminPanel">
         <div class="admin-content">
             <span class="close-admin" onclick="toggleAdmin()">×</span>
@@ -374,7 +362,6 @@
         </div>
     </div>
 
-    <!-- Hymn Detail Modal -->
     <div class="modal" id="hymnModal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal()">×</span>
@@ -391,7 +378,6 @@
         let currentFilter = 'all';
         let searchTerm = '';
 
-        // Initialize with default hymn
         const defaultHymn = {
             id: 'default-1',
             kanda: 'bala',
@@ -405,23 +391,24 @@
             isDefault: true
         };
 
-        async function loadHymns() {
+        function loadHymns() {
             hymns = [defaultHymn];
             try {
-                const result = await window.storage.list('hymn:');
-                if (result && result.keys) {
-                    for (const key of result.keys) {
-                        const data = await window.storage.get(key);
-                        if (data && data.value) {
-                            hymns.push(JSON.parse(data.value));
-                        }
-                    }
+                const saved = localStorage.getItem('ramayana-hymns');
+                if (saved) {
+                    const customHymns = JSON.parse(saved);
+                    hymns = [...hymns, ...customHymns];
                 }
             } catch (error) {
                 console.log('Using default hymns');
             }
             renderHymns();
             updateStats();
+        }
+
+        function saveHymns() {
+            const customHymns = hymns.filter(h => !h.isDefault);
+            localStorage.setItem('ramayana-hymns', JSON.stringify(customHymns));
         }
 
         function updateStats() {
@@ -444,7 +431,7 @@
                 return;
             }
 
-            grid.innerHTML = filtered.map((h, i) => `
+            grid.innerHTML = filtered.map((h) => `
                 <div class="hymn-card" onclick="openHymn('${h.id}')">
                     ${h.isDefault ? '' : `<button class="delete-btn" onclick="event.stopPropagation(); deleteHymn('${h.id}')">×</button>`}
                     <div class="hymn-tag">${h.kanda.charAt(0).toUpperCase() + h.kanda.slice(1)} Kanda</div>
@@ -492,31 +479,20 @@
             panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
         }
 
-        async function deleteHymn(id) {
+        function deleteHymn(id) {
             if (!confirm('Delete this hymn?')) return;
-            try {
-                await window.storage.delete(`hymn:${id}`);
-                await loadHymns();
-                alert('Hymn deleted successfully!');
-            } catch (error) {
-                alert('Error deleting hymn');
-            }
+            hymns = hymns.filter(h => h.id !== id);
+            saveHymns();
+            renderHymns();
+            updateStats();
+            alert('Hymn deleted successfully!');
         }
 
-        async function clearAll() {
+        function clearAll() {
             if (!confirm('Clear ALL custom hymns? This cannot be undone!')) return;
-            try {
-                const result = await window.storage.list('hymn:');
-                if (result && result.keys) {
-                    for (const key of result.keys) {
-                        await window.storage.delete(key);
-                    }
-                }
-                await loadHymns();
-                alert('All custom hymns cleared!');
-            } catch (error) {
-                alert('Error clearing hymns');
-            }
+            localStorage.removeItem('ramayana-hymns');
+            loadHymns();
+            alert('All custom hymns cleared!');
         }
 
         function exportData() {
@@ -530,7 +506,7 @@
             a.click();
         }
 
-        document.getElementById('adminForm').addEventListener('submit', async function(e) {
+        document.getElementById('adminForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
             const hymn = {
@@ -546,17 +522,17 @@
                 isDefault: false
             };
 
-            try {
-                await window.storage.set(`hymn:${hymn.id}`, JSON.stringify(hymn));
-                document.getElementById('adminAlert').innerHTML = '<div class="alert-success">✅ Hymn added successfully!</div>';
-                this.reset();
-                await loadHymns();
-                setTimeout(() => {
-                    document.getElementById('adminAlert').innerHTML = '';
-                }, 3000);
-            } catch (error) {
-                alert('Error saving hymn: ' + error.message);
-            }
+            hymns.push(hymn);
+            saveHymns();
+            
+            document.getElementById('adminAlert').innerHTML = '<div class="alert-success">✅ Hymn added successfully!</div>';
+            this.reset();
+            renderHymns();
+            updateStats();
+            
+            setTimeout(() => {
+                document.getElementById('adminAlert').innerHTML = '';
+            }, 3000);
         });
 
         document.querySelectorAll('.kanda-btn').forEach(btn => {
