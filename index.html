@@ -29,86 +29,10 @@
             padding: 2rem 1rem;
             text-align: center;
             box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            position: relative;
         }
         .header h1 { font-size: 2.5rem; margin-bottom: 0.5rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
         .header p { font-size: 1.1rem; opacity: 0.95; font-style: italic; }
         .container { max-width: 1200px; margin: 0 auto; padding: 2rem 1rem; }
-        
-        .admin-toggle {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            padding: 1rem;
-            border-radius: 50%;
-            width: 60px;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-            font-size: 1.5rem;
-            z-index: 999;
-            transition: all 0.3s;
-            border: none;
-        }
-        .admin-toggle:hover { transform: scale(1.1) rotate(90deg); }
-        
-        .admin-panel {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.8);
-            z-index: 1000;
-            overflow-y: auto;
-            padding: 2rem;
-        }
-        .admin-content {
-            background: var(--card-bg);
-            max-width: 800px;
-            margin: 2rem auto;
-            border-radius: 20px;
-            padding: 3rem;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-        }
-        .close-admin {
-            float: right;
-            font-size: 2rem;
-            cursor: pointer;
-            color: var(--text-light);
-        }
-        
-        .form-group { margin-bottom: 1.5rem; }
-        .form-label { display: block; font-weight: bold; margin-bottom: 0.5rem; color: var(--primary); }
-        .form-input, .form-select, .form-textarea {
-            width: 100%;
-            padding: 0.75rem;
-            border: 2px solid var(--border);
-            border-radius: 8px;
-            font-family: 'Georgia', serif;
-            font-size: 1rem;
-        }
-        .form-textarea { resize: vertical; min-height: 80px; }
-        .submit-btn {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            padding: 1rem 2rem;
-            border: none;
-            border-radius: 10px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            cursor: pointer;
-            width: 100%;
-            font-family: 'Georgia', serif;
-        }
-        .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(139, 69, 19, 0.4); }
-        
         .search-box {
             background: var(--card-bg);
             padding: 1.5rem;
@@ -156,7 +80,6 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.08);
             border: 2px solid var(--border);
             cursor: pointer;
-            position: relative;
             transition: all 0.3s;
         }
         .hymn-card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.15); }
@@ -173,23 +96,6 @@
         .hymn-title { font-size: 1.4rem; color: var(--primary); margin-bottom: 0.5rem; font-weight: bold; }
         .hymn-subtitle { color: var(--text-light); font-size: 1rem; margin-bottom: 1rem; font-style: italic; }
         .hymn-preview { color: var(--text); line-height: 1.8; margin-bottom: 1rem; font-size: 0.95rem; }
-        .delete-btn {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: #ff4444;
-            color: white;
-            border: none;
-            padding: 0.5rem;
-            border-radius: 50%;
-            cursor: pointer;
-            width: 30px;
-            height: 30px;
-            display: none;
-            font-size: 1rem;
-        }
-        .hymn-card:hover .delete-btn { display: block; }
-        
         .modal {
             display: none;
             position: fixed;
@@ -244,32 +150,23 @@
             padding-bottom: 0.5rem;
             border-bottom: 2px solid var(--border);
         }
-        .alert-success {
-            background: #d4edda;
-            border-left: 4px solid #28a745;
-            color: #155724;
-            padding: 1rem;
-            border-radius: 10px;
-            margin-top: 1rem;
-        }
-        .stats { text-align: center; margin-bottom: 2rem; font-size: 1.2rem; color: var(--primary); }
         .footer { text-align: center; padding: 2rem; color: var(--text-light); margin-top: 3rem; }
-        
         @media (max-width: 768px) {
             .hymn-grid { grid-template-columns: 1fr; }
             .header h1 { font-size: 1.8rem; }
+            .modal-content { padding: 1.5rem; }
         }
     </style>
 </head>
 <body>
     <div class="header">
         <h1>🕉️ Ramayana Hymns Repository</h1>
-        <p>A Sacred Collection with Easy Admin Panel</p>
+        <p>A Sacred Collection of Vedic Wisdom from Valmiki's Epic</p>
     </div>
 
     <div class="container">
         <div class="search-box">
-            <input type="text" class="search-input" id="searchInput" placeholder="🔍 Search hymns...">
+            <input type="text" class="search-input" id="searchInput" placeholder="🔍 Search hymns, verses, or keywords...">
         </div>
 
         <div class="kanda-nav">
@@ -286,82 +183,6 @@
         <div class="hymn-grid" id="hymnGrid"></div>
     </div>
 
-    <button class="admin-toggle" onclick="toggleAdmin()">⚙️</button>
-
-    <div class="admin-panel" id="adminPanel">
-        <div class="admin-content">
-            <span class="close-admin" onclick="toggleAdmin()">×</span>
-            <h2 style="color: var(--primary); margin-bottom: 2rem;">🛠️ Add New Hymn</h2>
-            
-            <div class="stats" id="stats">Total Hymns: 0</div>
-
-            <form id="adminForm">
-                <div class="form-group">
-                    <label class="form-label">Kanda *</label>
-                    <select id="kanda" class="form-select" required>
-                        <option value="">Choose...</option>
-                        <option value="bala">Bala Kanda</option>
-                        <option value="ayodhya">Ayodhya Kanda</option>
-                        <option value="aranya">Aranya Kanda</option>
-                        <option value="kishkinda">Kishkinda Kanda</option>
-                        <option value="sundara">Sundara Kanda</option>
-                        <option value="yuddha">Yuddha Kanda</option>
-                        <option value="uttara">Uttara Kanda</option>
-                    </select>
-                </div>
-
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                    <div class="form-group">
-                        <label class="form-label">Title *</label>
-                        <input type="text" id="title" class="form-input" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Subtitle *</label>
-                        <input type="text" id="subtitle" class="form-input" required placeholder="e.g., Sarga 15">
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Preview *</label>
-                    <textarea id="preview" class="form-textarea" required></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Sanskrit Text *</label>
-                    <textarea id="sanskrit" class="form-textarea" required style="font-family: 'Noto Serif Devanagari', Georgia;"></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Transliteration *</label>
-                    <textarea id="transliteration" class="form-textarea" required></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Translation *</label>
-                    <textarea id="translation" class="form-textarea" required></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Context *</label>
-                    <textarea id="context" class="form-textarea" required></textarea>
-                </div>
-
-                <button type="submit" class="submit-btn">🙏 Add Hymn</button>
-            </form>
-
-            <div id="adminAlert"></div>
-
-            <div style="margin-top: 2rem; padding-top: 2rem; border-top: 2px solid var(--border);">
-                <button class="submit-btn" onclick="exportData()" style="background: var(--secondary); margin-bottom: 1rem;">
-                    📥 Export All Hymns (Backup)
-                </button>
-                <button class="submit-btn" onclick="clearAll()" style="background: #dc3545;">
-                    🗑️ Clear All Custom Hymns
-                </button>
-            </div>
-        </div>
-    </div>
-
     <div class="modal" id="hymnModal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal()">×</span>
@@ -370,76 +191,231 @@
     </div>
 
     <div class="footer">
-        <p>Created with devotion 🙏 | Click ⚙️ to add hymns</p>
+        <p>Created with devotion 🙏 | <a href="https://github.com/Kishandev12/ramayana-hymns" style="color: var(--secondary); text-decoration: none;">View on GitHub</a></p>
     </div>
 
     <script>
-        let hymns = [];
+        const hymns = [
+            {
+                id: 1,
+                kanda: 'bala',
+                title: 'The Gayatri Connection',
+                subtitle: 'Sarga 4',
+                preview: 'The 24,000 verses of Ramayana correspond to the 24 letters of the sacred Gayatri hymn, establishing its divine structure.',
+                sanskrit: 'ॐ भूर्भुवः स्वः तत्सवितुर्वरेण्यं भर्गो देवस्य धीमहि धियो यो नः प्रचोदयात्',
+                transliteration: 'Om Bhur Bhuvah Svah Tat Savitur Varenyam Bhargo Devasya Dhimahi Dhiyo Yo Nah Prachodayat',
+                translation: 'We meditate on the glory of the Creator; Who has created the Universe; Who is worthy of Worship; Who is the embodiment of Knowledge and Light; Who is the remover of all Sin and Ignorance; May He enlighten our Intellect.',
+                context: 'Valmiki composed the Ramayana in 24,000 verses based on the 24-letter Gayatri hymn, making it a sacred spiritual text.'
+            },
+            {
+                id: 2,
+                kanda: 'bala',
+                title: 'Invocation to Saraswati',
+                subtitle: 'Sarga 1',
+                preview: 'Sage Valmiki invokes Goddess Saraswati, the deity of knowledge and arts, seeking her blessings before composing the epic.',
+                sanskrit: 'वाग्देवी प्रसीद मह्यं कविता कर्तुं शक्तिं देहि। त्वदनुग्रहेण वाल्मीकिः रामायणं रचयिष्यति॥',
+                transliteration: 'Vāgdevī prasīda mahyaṃ kavitā kartuṃ śaktiṃ dehi, Tvadanugraheṇa Vālmīkiḥ Rāmāyaṇaṃ racayiṣyati',
+                translation: 'O Goddess of Speech, be pleased with me and grant me the power to compose poetry. By your grace, Valmiki shall compose the Ramayana.',
+                context: 'This opening invocation establishes the sacred tradition of seeking divine inspiration before undertaking any great literary work.'
+            },
+            {
+                id: 3,
+                kanda: 'bala',
+                title: 'Narada\'s Description of Rama',
+                subtitle: 'Sarga 1',
+                preview: 'Sage Narada describes the supreme virtues of Lord Rama to Valmiki, inspiring him to compose the great epic.',
+                sanskrit: 'इक्ष्वाकुवंशप्रभवो रामो नाम जनैः श्रुतः। नियतात्मा महावीर्यो द्युतिमान् धृतिमान् वशी॥',
+                transliteration: 'Ikṣvākuvaṃśaprabhavo Rāmo nāma janaiḥ śrutaḥ, Niyatātmā mahāvīryo dyutimān dhṛtimān vaśī',
+                translation: 'Born in the Ikshvaku dynasty, known to people as Rama, he is self-controlled, greatly heroic, radiant, patient, and master of his senses.',
+                context: 'Narada\'s description of Rama\'s divine qualities becomes the foundation for Valmiki\'s epic composition.'
+            },
+            {
+                id: 4,
+                kanda: 'ayodhya',
+                title: 'Dasharatha\'s Lament',
+                subtitle: 'Sarga 64',
+                preview: 'King Dasharatha\'s heartbreaking final words as he remembers Rama, expressing the unbearable pain of separation from his beloved son.',
+                sanskrit: 'राम रामेति रामेति हा राम इति वदन्। दशरथो नृपो दुःखाद्देहं त्यक्त्वा दिवं गतः॥',
+                transliteration: 'Rāma Rāmeti Rāmeti Hā Rāma iti vadan, Daśaratho nṛpo duḥkhād dehaṃ tyaktvā divaṃ gataḥ',
+                translation: 'Crying "Rama, Rama, Rama, O Rama!", King Dasharatha, overcome with grief, left his body and ascended to heaven.',
+                context: 'Unable to bear separation from Rama, Dasharatha passes away uttering his son\'s name - demonstrating the power of divine names at the moment of death.'
+            },
+            {
+                id: 5,
+                kanda: 'ayodhya',
+                title: 'Bharata\'s Renunciation',
+                subtitle: 'Sarga 97',
+                preview: 'Bharata refuses the throne and places Rama\'s sandals on it, exemplifying the ideal of brotherly love and devotion.',
+                sanskrit: 'नाहं राज्यं करोम्येकः पादुके रक्ष मेदिनीम्। राघवाणां महाबाहो नियुक्तोऽस्मि तवाज्ञया॥',
+                transliteration: 'Nāhaṃ rājyaṃ karomyekaḥ pāduke rakṣa medinīm, Rāghavāṇāṃ mahābāho niyukto\'smi tavājñayā',
+                translation: 'I shall not rule the kingdom alone. O sandals, protect this earth! O mighty-armed Rama, I am appointed by your command to serve.',
+                context: 'Bharata\'s act of placing Rama\'s sandals on the throne symbolizes the highest form of devotion and duty, ruling as Rama\'s representative.'
+            },
+            {
+                id: 6,
+                kanda: 'aranya',
+                title: 'Sita\'s Devotion',
+                subtitle: 'Sarga 10',
+                preview: 'Sita declares her unwavering devotion to Rama, stating that even heaven holds no appeal without him.',
+                sanskrit: 'छायेव रामस्य निवसामि वने। स्वर्गोऽपि न मे रोचते रामं विना॥',
+                transliteration: 'Chāyeva Rāmasya nivasāmi vane, Svargo\'pi na me rocate Rāmaṃ vinā',
+                translation: 'I dwell in the forest like the shadow of Rama. Even heaven does not appeal to me without Rama.',
+                context: 'Sita\'s words exemplify the highest ideal of devotion - finding the presence of the beloved more precious than any worldly or heavenly pleasure.'
+            },
+            {
+                id: 7,
+                kanda: 'aranya',
+                title: 'Jatayu\'s Sacrifice',
+                subtitle: 'Sarga 50',
+                preview: 'The noble vulture Jatayu fights Ravana to protect Sita, demonstrating supreme loyalty and courage.',
+                sanskrit: 'न त्वां नेतुं समर्थोऽहं वृद्धो जरसि दुर्बलः। प्राणांस्त्यक्ष्यामि तेऽद्येह मैवं सीतां नयस्व रे॥',
+                transliteration: 'Na tvāṃ netuṃ samartho\'haṃ vṛddho jarasi durbalaḥ, Prāṇāṃstyakṣyāmi te\'dyeha maivaṃ sītāṃ nayasva re',
+                translation: 'I am unable to stop you, old and weak as I am. But I shall give up my life here today! Do not take Sita away!',
+                context: 'Jatayu\'s supreme sacrifice while protecting Sita represents the dharma of loyalty and courage against overwhelming odds.'
+            },
+            {
+                id: 8,
+                kanda: 'kishkinda',
+                title: 'Hanuman\'s First Meeting with Rama',
+                subtitle: 'Sarga 3',
+                preview: 'The momentous first meeting between Hanuman and Lord Rama marks the beginning of eternal devotion.',
+                sanskrit: 'नमामि चरणौ रामस्य करुणासागरस्य च। भक्तानां अभयप्रदं सदा रक्षकं जगत्॥',
+                transliteration: 'Namāmi caraṇau Rāmasya karuṇāsāgarasya ca, Bhaktānāṃ abhayapradaṃ sadā rakṣakaṃ jagat',
+                translation: 'I bow to the feet of Rama, who is an ocean of compassion, the giver of fearlessness to devotees, and the eternal protector of the universe.',
+                context: 'Upon meeting Rama, Hanuman immediately recognizes His divine nature and surrenders completely, establishing the perfect devotee-deity relationship.'
+            },
+            {
+                id: 9,
+                kanda: 'kishkinda',
+                title: 'Rama\'s Promise to Sugriva',
+                subtitle: 'Sarga 4',
+                preview: 'Rama pledges to help Sugriva defeat Vali, demonstrating his commitment to helping those who seek refuge.',
+                sanskrit: 'सखे सुग्रीव मित्रं ते भविष्यामि सदैव तु। वालिनं च हनिष्यामि शरेणैकेन राक्षस॥',
+                transliteration: 'Sakhe Sugrīva mitraṃ te bhaviṣyāmi sadaiva tu, Vālinaṃ ca haniṣyāmi śareṇaikena rākṣasa',
+                translation: 'O friend Sugriva, I shall always be your friend. I shall slay Vali with a single arrow, O vanara lord.',
+                context: 'Rama\'s unwavering commitment to his word and protection of those who seek refuge represents the highest dharma of a king and friend.'
+            },
+            {
+                id: 10,
+                kanda: 'sundara',
+                title: 'Hanuman\'s Leap Prayer',
+                subtitle: 'Sarga 1',
+                preview: 'Before leaping across the ocean, Hanuman invokes blessings and demonstrates supreme faith in Rama\'s name.',
+                sanskrit: 'यत्र यत्र रघुनाथकीर्तनं तत्र तत्र कृतमस्तकाञ्जलिम्। भाष्पवारिपरिपूर्णलोचनं मारुतिं नमत राक्षसान्तकम्॥',
+                transliteration: 'Yatra yatra raghunāthakīrtanaṃ tatra tatra kṛtamastakāñjalim, Bhāṣpavāriparipūrṇalocanaṃ mārutiṃ namata rākṣasāntakam',
+                translation: 'Wherever the glories of Rama are sung, there Hanuman appears with folded hands and eyes filled with tears of devotion. Bow to that Maruti, the destroyer of demons.',
+                context: 'Hanuman\'s complete surrender to Rama before his impossible leap demonstrates that divine grace makes all things possible.'
+            },
+            {
+                id: 11,
+                kanda: 'sundara',
+                title: 'Sita in Ashoka Vatika',
+                subtitle: 'Sarga 15',
+                preview: 'Despite captivity and suffering, Sita remains devoted to Rama, her mind never wavering from her Lord.',
+                sanskrit: 'राममेव सदा ध्यायन्ती रुदन्ती च मुहुर्मुहुः। पतिव्रता सीता दुःखं सहते रावणालये॥',
+                transliteration: 'Rāmameva sadā dhyāyantī rudantī ca muhurmuhuh, Pativatā Sītā duḥkhaṃ sahate rāvaṇālaye',
+                translation: 'Always meditating on Rama and weeping repeatedly, the devoted wife Sita bears suffering in Ravana\'s abode.',
+                context: 'Sita\'s unwavering faith creates an invisible shield of purity that even the demon king Ravana cannot penetrate.'
+            },
+            {
+                id: 12,
+                kanda: 'sundara',
+                title: 'Hanuman Meets Sita',
+                subtitle: 'Sarga 34',
+                preview: 'Hanuman finds Sita and delivers Rama\'s message, bringing hope to her in her darkest hour.',
+                sanskrit: 'रामो दाशरथिः श्रीमान् समरे वज्रवारणः। सुग्रीवसचिवो वीरो लङ्कामागतवान् कपिः॥',
+                transliteration: 'Rāmo dāśarathiḥ śrīmān samare vajravāraṇaḥ, Sugrīvasacivo vīro laṅkāmāgatavān kapiḥ',
+                translation: 'The glorious Rama, son of Dasharatha, strong as thunderbolt-bearing Indra in battle, has sent me, the hero and minister of Sugriva, to Lanka.',
+                context: 'Hanuman\'s message brings Sita renewed hope and demonstrates the power of a true messenger who carries divine grace.'
+            },
+            {
+                id: 13,
+                kanda: 'yuddha',
+                title: 'Aditya Hridayam',
+                subtitle: 'Sarga 105',
+                preview: 'Sage Agastya teaches Rama the most powerful hymn to the Sun God before the final battle with Ravana.',
+                sanskrit: 'आदित्यहृदयं पुण्यं सर्वशत्रुविनाशनम्। जयावहं जपेन्नित्यं अक्षयं परमं शिवम्॥',
+                transliteration: 'Ādityahṛdayaṃ puṇyaṃ sarvaśatruvināśanam, Jayāvahaṃ japennityaṃ akṣayaṃ paramaṃ śivam',
+                translation: 'The Aditya Hridayam is sacred, destroyer of all enemies, bestower of victory. Chanting it daily brings imperishable supreme auspiciousness.',
+                context: 'This powerful stotra represents the invocation of divine energy and light before facing life\'s greatest challenges.'
+            },
+            {
+                id: 14,
+                kanda: 'yuddha',
+                title: 'Vibhishana\'s Surrender',
+                subtitle: 'Sarga 18',
+                preview: 'Ravana\'s brother Vibhishana abandons evil and takes refuge in Rama, who accepts him with open arms.',
+                sanskrit: 'सकृदेव प्रपन्नाय तवास्मीति च याचते। अभयं सर्वभूतेभ्यो ददाम्येतद्व्रतं मम॥',
+                transliteration: 'Sakṛdeva prapannāya tavāsmīti ca yācate, Abhayaṃ sarvabhūtebhyo dadāmyetadvtataṃ mama',
+                translation: 'To one who surrenders to me even once saying "I am yours," I grant fearlessness from all beings. This is my vow.',
+                context: 'Rama\'s acceptance of Vibhishana demonstrates the principle that sincere surrender to dharma is accepted regardless of past associations.'
+            },
+            {
+                id: 15,
+                kanda: 'yuddha',
+                title: 'Victory Hymn',
+                subtitle: 'Sarga 109',
+                preview: 'After defeating Ravana, the gods sing praises recognizing Rama\'s divine nature and the victory of righteousness.',
+                sanskrit: 'जयति तदङ्कुरो वंशः कोसलानां महात्मनाम्। यत्र जातो महाभागो रामो दाशरथिः प्रभुः॥',
+                transliteration: 'Jayati tadaṅkuro vaṃśaḥ kosalānāṃ mahātmanām, Yatra jāto mahābhāgo rāmo dāśarathiḥ prabhuḥ',
+                translation: 'Victory to that noble lineage of the great souls of Kosala, in which was born the supremely fortunate Rama, son of Dasharatha, the Lord.',
+                context: 'The celestial celebration represents the cosmic joy when dharma triumphs over adharma, restoring balance to the universe.'
+            },
+            {
+                id: 16,
+                kanda: 'uttara',
+                title: 'Rama\'s Coronation',
+                subtitle: 'Sarga 4',
+                preview: 'Rama is crowned emperor of Ayodhya, marking the beginning of Ram Rajya - the golden age of righteous rule.',
+                sanskrit: 'अयोध्यावासिभिः सर्वैः कृतं रामाभिषेचनम्। प्रहृष्टा मानवाः सर्वे रामो राजा भविष्यति॥',
+                transliteration: 'Ayodhyāvāsibhiḥ sarvaiḥ kṛtaṃ rāmābhiṣecanam, Prahṛṣṭā mānavāḥ sarve rāmo rājā bhaviṣyati',
+                translation: 'All residents of Ayodhya performed Rama\'s coronation. All people rejoiced that Rama would be their king.',
+                context: 'Ram Rajya represents the ideal society where dharma prevails and all beings live in prosperity, peace, and harmony.'
+            },
+            {
+                id: 17,
+                kanda: 'uttara',
+                title: 'The Glory of Ramayana',
+                subtitle: 'Sarga 110',
+                preview: 'The concluding verses describe the spiritual benefits of reading and reciting the sacred Ramayana.',
+                sanskrit: 'रामायणं यः पठेद्विप्रो यश्चृणुयाद्विचक्षणः। सर्वपापविनिर्मुक्तो विष्णुलोकं स गच्छति॥',
+                transliteration: 'Rāmāyaṇaṃ yaḥ paṭhedvipro yaścṛṇuyādvicakṣaṇaḥ, Sarvapāpavinirmukto viṣṇulokaṃ sa gacchati',
+                translation: 'The wise one who reads or listens to the Ramayana becomes freed from all sins and attains the eternal abode of Vishnu.',
+                context: 'This blessing affirms that the Ramayana is not merely a story but a sacred text that purifies and elevates consciousness.'
+            }
+        ];
+
         let currentFilter = 'all';
         let searchTerm = '';
-
-        const defaultHymn = {
-            id: 'default-1',
-            kanda: 'bala',
-            title: 'The Gayatri Connection',
-            subtitle: 'Sarga 4',
-            preview: 'The 24,000 verses of Ramayana correspond to the 24 letters of the sacred Gayatri hymn.',
-            sanskrit: 'ॐ भूर्भुवः स्वः तत्सवितुर्वरेण्यं भर्गो देवस्य धीमहि धियो यो नः प्रचोदयात्',
-            transliteration: 'Om Bhur Bhuvah Svah Tat Savitur Varenyam Bhargo Devasya Dhimahi Dhiyo Yo Nah Prachodayat',
-            translation: 'We meditate on the glory of the Creator; Who has created the Universe; Who is worthy of Worship; Who is the embodiment of Knowledge and Light.',
-            context: 'Valmiki composed the Ramayana in 24,000 verses based on the 24-letter Gayatri hymn structure.',
-            isDefault: true
-        };
-
-        function loadHymns() {
-            hymns = [defaultHymn];
-            try {
-                const saved = localStorage.getItem('ramayana-hymns');
-                if (saved) {
-                    const customHymns = JSON.parse(saved);
-                    hymns = [...hymns, ...customHymns];
-                }
-            } catch (error) {
-                console.log('Using default hymns');
-            }
-            renderHymns();
-            updateStats();
-        }
-
-        function saveHymns() {
-            const customHymns = hymns.filter(h => !h.isDefault);
-            localStorage.setItem('ramayana-hymns', JSON.stringify(customHymns));
-        }
-
-        function updateStats() {
-            const custom = hymns.filter(h => !h.isDefault).length;
-            document.getElementById('stats').textContent = `Total Hymns: ${hymns.length} (${custom} custom)`;
-        }
 
         function renderHymns() {
             const grid = document.getElementById('hymnGrid');
             const filtered = hymns.filter(h => {
                 const matchKanda = currentFilter === 'all' || h.kanda === currentFilter;
-                const matchSearch = !searchTerm || 
-                    h.title.toLowerCase().includes(searchTerm) ||
-                    h.preview.toLowerCase().includes(searchTerm);
+                const lower = searchTerm.toLowerCase();
+                const matchSearch = !lower ||
+                    h.title.toLowerCase().includes(lower) ||
+                    h.preview.toLowerCase().includes(lower) ||
+                    h.sanskrit.toLowerCase().includes(lower) ||
+                    h.transliteration.toLowerCase().includes(lower) ||
+                    h.translation.toLowerCase().includes(lower) ||
+                    h.context.toLowerCase().includes(lower);
                 return matchKanda && matchSearch;
             });
 
             if (filtered.length === 0) {
-                grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 4rem; color: var(--text-light);"><h3>No hymns found</h3><p>Try adjusting filters or add new hymns</p></div>';
+                grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 4rem; color: var(--text-light);"><h3>No hymns found</h3><p>Try adjusting your search or filter</p></div>';
                 return;
             }
 
             grid.innerHTML = filtered.map((h) => `
-                <div class="hymn-card" onclick="openHymn('${h.id}')">
-                    ${h.isDefault ? '' : `<button class="delete-btn" onclick="event.stopPropagation(); deleteHymn('${h.id}')">×</button>`}
+                <div class="hymn-card" onclick="openHymn(${h.id})">
                     <div class="hymn-tag">${h.kanda.charAt(0).toUpperCase() + h.kanda.slice(1)} Kanda</div>
                     <h3 class="hymn-title">${h.title}</h3>
                     <p class="hymn-subtitle">${h.subtitle}</p>
                     <p class="hymn-preview">${h.preview}</p>
                     <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border); font-size: 0.9rem; color: var(--text-light);">
-                        📖 Verse · 🕉️ Sacred ${h.isDefault ? '' : '· ✏️ Custom'}
+                        📖 Verse · 🕉️ Sacred
                     </div>
                 </div>
             `).join('');
@@ -448,112 +424,68 @@
         function openHymn(id) {
             const hymn = hymns.find(h => h.id === id);
             if (!hymn) return;
-            
-            document.getElementById('modalBody').innerHTML = `
+
+            const modalBody = document.getElementById('modalBody');
+            modalBody.innerHTML = `
                 <div class="hymn-tag">${hymn.kanda.charAt(0).toUpperCase() + hymn.kanda.slice(1)} Kanda</div>
                 <h2 class="hymn-title" style="font-size: 2rem; margin: 0.5rem 0;">${hymn.title}</h2>
-                <p class="hymn-subtitle" style="font-size: 1.2rem;">${hymn.subtitle}</p>
+                <p class="hymn-subtitle" style="margin-bottom: 1.5rem;">${hymn.subtitle}</p>
 
-                <h2 class="section-title">Sanskrit Verse</h2>
+                <div class="section-title">Sanskrit Verse</div>
                 <div class="sanskrit-text">${hymn.sanskrit}</div>
 
-                <h2 class="section-title">Transliteration</h2>
-                <p style="font-style: italic; line-height: 1.8; margin: 1rem 0;">${hymn.transliteration}</p>
+                <div class="section-title">Transliteration</div>
+                <div class="translation" style="font-style: normal;">${hymn.transliteration}</div>
 
-                <h2 class="section-title">Translation</h2>
+                <div class="section-title">Translation</div>
                 <div class="translation">${hymn.translation}</div>
 
-                <h2 class="section-title">Context</h2>
-                <p style="line-height: 1.8;">${hymn.context}</p>
+                <div class="section-title">Context</div>
+                <p style="margin-top: 0.5rem;">${hymn.context}</p>
             `;
-            
-            document.getElementById('hymnModal').style.display = 'block';
+
+            const modal = document.getElementById('hymnModal');
+            modal.style.display = 'block';
         }
 
         function closeModal() {
-            document.getElementById('hymnModal').style.display = 'none';
+            const modal = document.getElementById('hymnModal');
+            modal.style.display = 'none';
         }
 
-        function toggleAdmin() {
-            const panel = document.getElementById('adminPanel');
-            panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
-        }
-
-        function deleteHymn(id) {
-            if (!confirm('Delete this hymn?')) return;
-            hymns = hymns.filter(h => h.id !== id);
-            saveHymns();
-            renderHymns();
-            updateStats();
-            alert('Hymn deleted successfully!');
-        }
-
-        function clearAll() {
-            if (!confirm('Clear ALL custom hymns? This cannot be undone!')) return;
-            localStorage.removeItem('ramayana-hymns');
-            loadHymns();
-            alert('All custom hymns cleared!');
-        }
-
-        function exportData() {
-            const customHymns = hymns.filter(h => !h.isDefault);
-            const json = JSON.stringify(customHymns, null, 2);
-            const blob = new Blob([json], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `ramayana-hymns-backup-${Date.now()}.json`;
-            a.click();
-        }
-
-        document.getElementById('adminForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const hymn = {
-                id: 'hymn-' + Date.now(),
-                kanda: document.getElementById('kanda').value,
-                title: document.getElementById('title').value,
-                subtitle: document.getElementById('subtitle').value,
-                preview: document.getElementById('preview').value,
-                sanskrit: document.getElementById('sanskrit').value,
-                transliteration: document.getElementById('transliteration').value,
-                translation: document.getElementById('translation').value,
-                context: document.getElementById('context').value,
-                isDefault: false
-            };
-
-            hymns.push(hymn);
-            saveHymns();
-            
-            document.getElementById('adminAlert').innerHTML = '<div class="alert-success">✅ Hymn added successfully!</div>';
-            this.reset();
-            renderHymns();
-            updateStats();
-            
-            setTimeout(() => {
-                document.getElementById('adminAlert').innerHTML = '';
-            }, 3000);
+        // Close on backdrop click
+        window.addEventListener('click', function (e) {
+            const modal = document.getElementById('hymnModal');
+            if (e.target === modal) {
+                closeModal();
+            }
         });
 
+        // Close on Esc key
+        window.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // Search input handler
+        document.getElementById('searchInput').addEventListener('input', function (e) {
+            searchTerm = e.target.value.trim();
+            renderHymns();
+        });
+
+        // Kanda filter buttons
         document.querySelectorAll('.kanda-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
+            btn.addEventListener('click', function () {
                 document.querySelectorAll('.kanda-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                currentFilter = btn.dataset.kanda;
+                this.classList.add('active');
+                currentFilter = this.getAttribute('data-kanda');
                 renderHymns();
             });
         });
 
-        document.getElementById('searchInput').addEventListener('input', (e) => {
-            searchTerm = e.target.value.toLowerCase();
-            renderHymns();
-        });
-
-        window.onclick = (e) => {
-            if (e.target.id === 'hymnModal') closeModal();
-        };
-
-        loadHymns();
+        // Initial render
+        renderHymns();
     </script>
 </body>
 </html>
